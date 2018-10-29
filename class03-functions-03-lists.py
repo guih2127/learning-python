@@ -51,6 +51,9 @@ import random
 matriz = []
 
 def gerar_matriz(matriz):
+    '''
+    função para gerar uma nova matriz aleatória 4x4
+    '''
     lista = list(range(16))
     for j in range(4):
         linha = []
@@ -64,3 +67,10 @@ matriz = []
 
 gerar_matriz(matriz)
 print(matriz)
+
+# funções costumam ter descrições, e podemos acessa-las com help.
+# por ex:
+help(print)
+
+# podemos criar para uma das nossas funções, como feito acima, utilizando '''.
+help(gerar_matriz)
