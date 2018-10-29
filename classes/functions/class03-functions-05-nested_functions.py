@@ -38,3 +38,19 @@ x()
 
 # ou seja, utilizamos NONLOCAL para conseguirmos chamar uma variável definida em outra função.
 # o NONLOCAL é parecido com o GLOBAL, porém par NESTED FUNCIONS
+
+# LAMBDA:
+# podemos criar uma função, tal como:
+def soma(x, y, z):
+	return x + y + z
+
+a = soma
+a(1,2,3)
+
+# mas poderiamos fazer isso com o lambda:
+f = (lambda x, y, z: x + y + z)
+f(1, 2, 3)
+
+# o lambda é utilizado para escrever funções de forma mais simples.
+# é importante frizar que o LAMBDA precisa ser atribuído a uma variável,
+# diferentemente de uma função normal.
