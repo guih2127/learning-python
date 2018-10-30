@@ -1,4 +1,4 @@
-# HERANÇA E POLIMORFISMO:
+# HERANÇA, SUPER E POLIMORFISMO:
 
 class Mamifero:
 	def __init__(self, cor_de_pelo, genero, num_de_patas):
@@ -87,6 +87,72 @@ Julia.falar()
 
 class Animal(object):
 	pass
+
+
+# EXERCÍCIO:
+# defina uma classe chamada ObjetoGrafico subclasse de Object, com os atributos:
+# cor de preenchimento(int), preenchida(bool), cor_de_contorno(int)
+# escreva tres classes, retangulo, que recebe base e altura, circulo, que recebe raio,
+# e triangulo, que recebe base e altura, subclasses da classe ObjetoGrafico, que possuam todas
+# metodos de area e perimetro
+
+class ObjetoGrafico(object):
+	def __init__(self, cor_preenchimento, preenchida, cor_contorno):
+		self.cor_preenchimento = cor_preenchimento
+		self.preenchida = preenchida
+		self.cor_contorno = cor_contorno
+
+	def area(self):
+		pass
+
+	def perimetro(self):
+		pass
+
+	def imprimir_valores(self):
+		if self.preenchida == True:
+			print('O objeto tem cor ' + str(self.cor_preenchimento) + ' de preenchimento ' + str(self.cor_contorno) + ' de contorno, e está preenchido.')
+		elif self.preenchida == False:
+			print('O objeto tem cor ' + str(self.cor_preenchimento) + ' de preenchimento ' + str(self.cor_contorno) + ' de contorno, e não está preenchido.')
+
+class Retangulo(ObjetoGrafico):
+	def __init__(self, base, altura):
+		super(Retangulo, self).__init__('azul', True, 'amarelo')
+		self.base = base
+		self.altura = altura
+
+	def area(self):
+		self.area_numero = self.base * self.altura
+		return self.area_numero
+
+	def perimetro(self):
+		self.perimetro_numero = 2 * (self.base * self.altura)
+		return self.perimetro_numero
+
+	def imprimir_valores(self):
+		super(Retangulo, self).imprimir_valores()
+		print('O retangulo criado tem area %s e perimetro %f.' %(self.area_numero, self.perimetro_numero))
+
+x = Retangulo(5, 7)
+
+x.area()
+x.perimetro()
+
+x.imprimir_valores()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -133,3 +133,102 @@ Conta.imprime_reserva() # o imprime_reserva tambem funciona.
 # o python só possui um tipo de encapsulamento, não é como no C# e no Java, onde existem mais
 # tipos, o python só existe PUBLIC E PRIVATE, ou seja, ou ele pode ser acessado de qualquer lugar
 # ou ele só pode ser acessado de dentro de uma classe.
+
+# EXERCICIO:
+
+# escreva um programa de bancos que possua:
+# uma class Banco com os atributos: private total, public taxaReserva, private reservaExigida
+# metodos private calculaReserva, public podeFazerEmprestimo = bool
+# classe Conta com atributos private: id, senha, saldo e metodos: public deposito(senha, valor)
+# public saque(senha, valor), public podeReceberEmprestimo(valor) -> bool, public saque (float)
+
+class Banco(object):
+    __total = 5000
+    taxa_reserva = 0.1
+    __reserva_exigida = 200
+
+    def __init__(self):
+        pass
+
+    def __calcula_reserva():
+        total_reserva = Banco.__total * Banco.total_reserva
+        print('A reserva no momento é de %f.' %Banco.total_reserva)
+
+    def pode_fazer_emprestimo():
+        if (Conta.__total > 0):
+            pode_emprestimo == True
+        else:
+            pode_emprestimo == False
+
+    def aumenta_total(valor):
+        valor = valor
+        Banco.__total = Banco.__total + valor
+        return Banco.__total
+
+    def diminui_total(valor):
+        valor = valor
+        Banco.__total = Banco.__total - valor
+        return Banco.__total
+
+    def mostra_total():
+        print('O total do banco é %s.' %Banco.__total)
+
+
+class Conta(Banco):
+    def __init__(self, id_num, senha, saldo):
+        self.__id = id_num
+        self.__senha = senha
+        self.__saldo = saldo
+
+    def deposito(self, senha, valor):
+        senha = senha
+        if senha == self.__senha:         
+            valor = valor
+            self.__saldo = self.__saldo + valor
+            Banco.aumenta_total(valor)
+            print('Deposito feito com sucesso.')
+        else:
+            print('Digite a senha correta.')
+            return self.__saldo
+
+    def saque(self, senha, valor):
+        senha = senha
+        if senha == self.__senha:
+            valor = valor
+            __saldo = self.__saldo - valor
+            Banco.diminui_total(valor)
+            print('Saque feito com sucesso.')
+        else:
+            print('Digite a senha correta.')
+            return self.__saldo
+
+    def ver_saldo(self, senha):
+        senha = senha
+        if senha == self.__senha:
+            print('O seu saldo é %f.' %(self.__saldo))
+        else:
+            print('Digite a senha correta.')
+
+bradesco = Conta(123, 123, 5000)
+
+bradesco.deposito(12, 3000)
+
+bradesco.deposito(123, 3000)
+
+bradesco.ver_saldo(123)
+
+Banco.mostra_total()
+
+
+
+
+
+
+
+
+
+
+
+
+
+

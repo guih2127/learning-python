@@ -73,3 +73,86 @@ MudaNome(Guilherme)
 print(Guilherme.nome) # podemos ver que, ao mudarmos um atributo do objeto mesmo fora dele, o atributo é trocado normalmente, como acontece com listas, etc.
 
 
+# EXERCICIOS:
+# criar uma classe que modele um quadrado, que possua o atributo tamanho do lado,
+# e metodos mudar valor do lado, retornar valor do lado e calcular area
+
+class Quadrado(object):
+	def __init__(self, tamanho_lado):
+		self.lado = tamanho_lado
+
+	def mudar_valor_lado(self, novo_tamanho):
+		self.lado = novo_tamanho
+
+	def retornar_valor_lado(self):
+		print('O lado atual do quadrado é %s, você pode mudá-lo chamando mudar_valor_lado(numero).' %self.lado)
+		return self.lado
+
+	def calcular_area(self):
+		self.area = self.lado**2
+		print('O valor da área é %s.' %self.area)
+		return self.area
+
+quadrado1 = Quadrado(5)
+
+quadrado1.mudar_valor_lado(10)
+quadrado1.retornar_valor_lado()
+quadrado1.calcular_area()
+
+print('')
+
+class Retangulo(object):
+	def __init__(self, comprimento, largura):
+		self.comprimento = comprimento
+		self.largura = largura
+
+	def mudar_valor_dos_lados(self, novo_tamanho):
+		if self.lado == 1:
+			self.comprimento = novo_tamanho
+		elif self.lado == 2:
+			self.largura = novo_tamanho
+
+	def retornar_valor_dos_lados(self):
+		print('O valor do comprimento é %s e o da largura é %f.' %(self.comprimento, self.largura))
+		return self.comprimento, self.largura
+
+	def calcular_area(self):
+		self.area = self.comprimento * self.largura
+		print('O valor da área é %s.' %self.area)
+		return self.area
+
+	def calcular_perimetro(self):
+		self.perimetro = 2 * (self.comprimento + self.largura)
+		print('O valor do perímetro é %s.' %self.perimetro)
+		return self.perimetro
+
+
+print('Vamos criar uma instância da classe Retângulo, que recebe dois lados.')
+x = int(input('Digite o valor do comprimento:'))
+y = int(input('Digite o valor da largura:'))
+
+retangulo1 = Retangulo(x, y)
+
+retangulo1.retornar_valor_dos_lados()
+
+retangulo1.calcular_area()
+
+retangulo1.calcular_perimetro()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
