@@ -59,6 +59,29 @@ print(bradesco.__doc__)
 print(bradesco.__init__.__doc__) 
 
 # com o help, conseguimos passar por todos os metodos dentro de uma classe ou objeto, por ex:
-help(bradesco)
+# help(bradesco)
 
 print(bradesco)
+
+class Pai:
+  pass
+
+class Filha(Pai):
+  pass
+
+class Neta(Filha):
+  pass
+
+print(issubclass(Pai, Filha))
+print(issubclass(Filha, Pai))
+
+# o metodo is sub class serve para sabermos se uma classe é subclasse de outra.
+
+print(Filha.__bases__) # tambem conseguimos ver a superclasse de uma subclasse assim.
+# porem, o bases retorna so a superclasse DIRETA da subclasse, ou seja, um nivel acima.
+
+print(callable(Pai)) # com callable, podemos descobrir se uma classe é instanciavel ou não.
+# print(callable(5)) # retorna false
+
+# por padrao, uma instancia nao é callable, se quisermos que uma instancia possa ser chamada,
+# por ex. bradesco(), precisamos definir um metodo __call__
