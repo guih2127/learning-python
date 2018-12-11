@@ -2,4 +2,5 @@ projects/pollsapi/db.sqlite3
 projects/pollsapi/pollsapi/__pycache__/
 .vscode/
 projects/pollsapi/polls/__pycache__/
+.DS_Store
 
