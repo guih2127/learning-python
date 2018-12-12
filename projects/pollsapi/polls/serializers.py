@@ -7,6 +7,8 @@
 from rest_framework import serializers
 
 from .models import Poll, Choice, Vote
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 
 class VoteSerializer(serializers.ModelSerializer):
@@ -33,3 +35,26 @@ class PollSerializer(serializers.ModelSerializer):
 # implementações básicas dos metódos create() e update() e gera validações
 # para os serializers automaticamente. o metódo save(), que também está incluído,
 # sabe como criar ou atualizar uma instância.
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        Token.objects.create(user=user)
+        return user
+
+# sobrescrevemos o metódo create do ModelSerializer de User. como não temos
+# que obter o password na resposta, utilizamos write_only=True.
+# além disso, certificamos que não salvaremos o password cru, com a função
+# set_password.
+# agora, quando criarmos um usuário, um token também será criado para ele.

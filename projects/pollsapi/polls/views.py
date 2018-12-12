@@ -5,7 +5,8 @@
 from rest_framework import viewsets
 
 from .models import Poll, Choice
-from .serializers import PollSerializer, ChoiceSerializer, VoteSerializer
+from .serializers import PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
+from django.contrib.auth import authenticate
 
 # 1.
 """ def polls_list(request):
@@ -131,3 +132,28 @@ class CreateVote(APIView):
 # no model.
 
 # APIViews: Quando desejarmos editar completamente o comportamento da view.
+
+class UserCreate(generics.CreateAPIView):
+    authentication_classes = ()
+    permission_classes = ()
+    serializer_class = UserSerializer
+
+# criação da nossa view para User, que só permitirá o metódo Post.
+# colocamos exceções de autenticação aqui, ou seja, o usuário
+# obviamente não precisa estar logado para criar um usuário novo.
+
+from django.contrib.auth import authenticate
+
+class LoginView(APIView):
+    permission_classes = ()
+
+    def post(self, request,):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(username=username, password=password)
+        if user:
+            return Response({"token": user.auth_token.key})
+        else:
+            return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+# a view do login irá receber os dados do usuário e retornar um token, ou então um erro.
