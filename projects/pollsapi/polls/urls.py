@@ -36,3 +36,4 @@ urlpatterns = [
 ]
 
 urlpatterns += router.urls
+
