@@ -1,62 +1,61 @@
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from snippets_app.models import Snippet
 from snippets_app.serializers import SnippetSerializer
 
-# Inicialmente vamos criar as Views sem utilizar nenhuma funcionalidade do DRF.
-# A raiz da nossa API vai ser uma view que suporta a listagem de todos os snippets
-# ou a criação de um novo.
+# Agora estamos realmente utilizando funcionalidades do DRF para criar views.
+# Refatoramos as views existentes com function based views (@api_view), deixando o código
+# um pouco mais conciso e utilizando status codes nomeados.
 
-@csrf_exempt
-def snippet_list(request):
+# Incluímos o argumento format nas views, que permitirá que a nossa Web API lide com
+# diversos tipos de dados, e não apenas json.
+
+@api_view(['GET', 'POST'])
+def snippet_list(request, format=None):
     """
     List all code snippets, or create a new snippet.
     """
     if request.method == 'GET':
         snippets = Snippet.objects.all()
         serializer = SnippetSerializer(snippets, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = SnippetSerializer(data=data)
+        serializer = SnippetSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-# Também precisamos de uma view que corresponda à um snippet individual, e pode ser
-# utilizada para obter, atualizar ou deletar um snippet existente.
-
-@csrf_exempt
-def snippet_detail(request, pk):
+@api_view(['GET', 'PUT', 'DELETE'])
+def snippet_detail(request, pk, format=None):
     """
     Retrieve, update or delete a code snippet.
     """
     try:
         snippet = Snippet.objects.get(pk=pk)
     except Snippet.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = SnippetSerializer(snippet)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = SnippetSerializer(snippet, data=data)
+        serializer = SnippetSerializer(snippet, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         snippet.delete()
-        return HttpResponse(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-# É bom constatar que, por enquanto, tem vários casos que ainda não estamos lidando no momento.
-# Por exemplo, se a requisição for feita com um metódo que a view não suporta, retornaremos uma
-# resposta 500 "Server Error". Ainda assim, por enquanto isso aqui serve.
+# Ambos os exemplos ainda são parecidos com as views utilizadas anteriormente.
+# Uma das principais diferenças é a presença do objeto Response, que determina o
+# tipo correto de conteúdo para retornar para o cliente.
+# Além disso, nós não estamos mais prendendo nossas requisições e respostas a um
+# determinado tipo de conteúdo, request.data consegue lidar com requisições json,
+# mas também consegue lidar com outros formatos.
