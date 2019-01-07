@@ -8,9 +8,13 @@ from django.contrib.auth.models import User
 # e convertê-las no formato json.
 
 class SnippetSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    # No serializer, definimos owner como sendo o owner passado através da view (request.user),
+    # obtendo seu username e preenchendo o campo owner.
+
     class Meta:
         model = Snippet
-        fields = ('id', 'title', 'code', 'linenos', 'language', 'style')
+        fields = ('id', 'title', 'code', 'linenos', 'language', 'style', 'owner')
 
 # Nosso código com serializers.Serializer estava replicando muita coisa da Model, então
 # herdamos de ModelSerializer para deixar o código mais conciso. A classe ModelSerializer
