@@ -2,6 +2,7 @@ from snippets_app.models import Snippet
 from snippets_app.serializers import SnippetSerializer, UserSerializer
 from rest_framework import generics, permissions
 from django.contrib.auth.models import User
+from snippets_app.permissions import IsOwnerOrReadOnly
 
 # Indo um passo a frente, o DRF já nós dá um conjunto de generic views
 # já preparadas, que possuem mixed in implementados. Ou seja, podemos escrever
@@ -24,7 +25,7 @@ class SnippetList(generics.ListCreateAPIView):
     # o usuário logado e colocará como owner do snippet.
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
